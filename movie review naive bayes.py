@@ -248,3 +248,32 @@ from nltk import classify
 accuracy = classify.accuracy(classifier, test_set)
 print (accuracy) # Output: 0.77
 
+from nltk.tokenize import word_tokenize
+ 
+custom_review = "I hated the film. It was a disaster. Poor direction, bad acting."
+custom_review_tokens = word_tokenize(custom_review)
+custom_review_set = document_features(custom_review_tokens)
+print (classifier.classify(custom_review_set)) # Output: neg
+# Negative review correctly classified as negative
+ 
+# probability result
+prob_result = classifier.prob_classify(custom_review_set)
+print (prob_result) # Output: <ProbDist with 2 samples>
+print (prob_result.max()) # Output: neg
+print (prob_result.prob("neg")) # Output: 0.999989264571
+print (prob_result.prob("pos")) # Output: 1.07354285262e-05
+ 
+custom_review = "It was a wonderful and amazing movie. I loved it. Best direction, good acting."
+custom_review_tokens = word_tokenize(custom_review)
+custom_review_set = document_features(custom_review_tokens)
+ 
+print (classifier.classify(custom_review_set)) # Output: neg
+# Positive review is classified as negative
+# We need to improve our feature set for more accurate prediction
+ 
+# probability result
+prob_result = classifier.prob_classify(custom_review_set)
+print (prob_result) # Output: <ProbDist with 2 samples>
+print (prob_result.max()) # Output: neg
+print (prob_result.prob("neg")) # Output: 0.999791868552
+print (prob_result.prob("pos")) # Output: 0.000208131447797
